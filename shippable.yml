@@ -2,7 +2,23 @@ language: go
 
 go:
   - 1.9
-  
+
+resources:
+  - name: integration-aws
+    type: integration
+    integration: integration-aws
+  - name: repo-tfScripts
+    type: gitRepo
+    integration: github	   #REPLACE THIS WITH YOUR GITHUB INTEGRATION
+    pointer:
+      sourceName: rahul2393/sample_pipelines_terraform  #REPLACE nanishas WITH YOUR org name
+      branch: master
+  - name: params-tfScripts
+    type: params
+    version:
+      params:
+        REGION: "us-east-1"
+
 build:
   ci:
     - FILE_NAME=terraform_0.7.4_linux_amd64.zip
@@ -11,3 +27,4 @@ build:
     - unzip $FILE_NAME -d $(pwd)
     - export PATH=$PATH:/build
     - terraform -v
+    - terraform apply
