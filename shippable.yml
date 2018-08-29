@@ -26,7 +26,6 @@ build:
     - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
     - unzip $FILE_NAME -d $(pwd)
     - export PATH=$PATH:/build
-    - echo ${var.aws_access_key}
     - echo $aws_access_key
     - terraform -v
     - terraform init
