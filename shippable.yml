@@ -26,9 +26,9 @@ build:
     - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
     - unzip $FILE_NAME -d $(pwd)
     - export PATH=$PATH:/build
-    - echo $aws_access_key
-    - export aws_access_key=AKIAJSLKW5FZRUEDMEMA
-    - export aws_secret_key=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
+    - export AWS_ACCESS_KEY_ID=AKIAJSLKW5FZRUEDMEMA
+    - export AWS_SECRET_ACCESS_KEY=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
+    - export AWS_DEFAULT_REGION="us-east-1"
     - terraform -v
     - terraform init
     - terraform plan
