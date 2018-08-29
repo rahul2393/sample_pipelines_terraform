@@ -27,6 +27,8 @@ build:
     - unzip $FILE_NAME -d $(pwd)
     - export PATH=$PATH:/build
     - echo $aws_access_key
+    - export aws_access_key=AKIAJSLKW5FZRUEDMEMA
+    - export aws_secret_key=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
     - terraform -v
     - terraform init
     - terraform plan
