@@ -21,6 +21,7 @@ resources:
 
 build:
   ci:
+    - echo $integration-aws_INTEGRATION_ACCESSKEY
     - FILE_NAME=terraform_0.7.4_linux_amd64.zip
     - sudo apt-get update && apt-get install wget jq unzip
     - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
