@@ -1,6 +1,8 @@
 # ========================ECS Instances=======================
 
-provider "aws" {}
+provider "aws" {
+  region = "us-east-1"
+}
 
 # EC2 instances
 resource "aws_instance" "sampleInstances" {
