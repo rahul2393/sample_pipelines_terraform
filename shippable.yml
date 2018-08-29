@@ -27,4 +27,6 @@ build:
     - unzip $FILE_NAME -d $(pwd)
     - export PATH=$PATH:/build
     - terraform -v
+    - terraform init
+    - terraform plan
     - terraform apply
