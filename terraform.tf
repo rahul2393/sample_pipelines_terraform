@@ -1,6 +1,7 @@
 # ========================ECS Instances=======================
 
-provider "aws" {}
+provider "aws" {
+}
 
 # EC2 instances
 resource "aws_instance" "sampleInstances" {
