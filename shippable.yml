@@ -31,3 +31,4 @@ build:
     - echo $PWD
     - ls -la
     - docker run -v ${PWD}:${PWD} -w ${PWD} agrawalveeru/terra shell
+    - ls -la
