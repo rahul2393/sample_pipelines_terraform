@@ -16,16 +16,18 @@ resources:
 
 build:
   ci:
-    - FILE_NAME=terraform_0.7.4_linux_amd64.zip
-    - sudo apt-get update && apt-get install wget jq unzip
-    - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
-    - unzip $FILE_NAME -d $(pwd)
-    - export PATH=$PATH:/build
+    - echo $my_integration_INTEGRATION_ACCESSKEY
     - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field "my_integration" "accessKey")
     - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field "my_integration" "secretKey")
     - export AWS_DEFAULT_REGION="ap-south-1"
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
+    - FILE_NAME=terraform_0.7.4_linux_amd64.zip
+    - sudo apt-get update && apt-get install wget jq unzip
+    - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
+    - unzip $FILE_NAME -d $(pwd)
+    - export PATH=$PATH:/build
+
     - terraform init
     - terraform plan
     - terraform apply -auto-approve
