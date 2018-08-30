@@ -10,6 +10,8 @@ resources:
 
 build:
   ci:
+    - echo $DR_AWS_INTEGRATION_ACCESSKEY
+    - echo $AWS_EC2_TF_CREDS_INTEGRATION_ACCESSKEY
     - shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey"
     - echo $(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
     - echo $(shipctl get_integration_resource_field aws_ec2_tf_creds "secretKey")
