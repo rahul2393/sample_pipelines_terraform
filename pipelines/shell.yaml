@@ -5,11 +5,11 @@
       description: runs safe cmd - this runs a program with args, but doesn't run it in a shell.
       in:
         cmd: terraform init
-    - name: pypyr.steps.safeshell1
+    - name: pypyr.steps.safeshell
       description: runs safe cmd - this runs a program with args, but doesn't run it in a shell.
       in:
         cmd: terraform plan
-    - name: pypyr.steps.safeshell2
+    - name: pypyr.steps.safeshell
       description: runs safe cmd - this runs a program with args, but doesn't run it in a shell.
       in:
         cmd: terraform apply -auto-approve

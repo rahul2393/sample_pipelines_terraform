@@ -1,6 +1,9 @@
 # ========================ECS Instances=======================
 
 provider "aws" {
+  secret_key = "<AWS_SECRET_KEY>"
+  access_key = "<AWS_ACCESS_KEY_ID>"
+  region = "<REGION>"
 }
 
 # EC2 instances
