@@ -1,30 +1,91 @@
-language: go
-
-go:
-  - 1.9
-
 resources:
-  - name: dr_aws
+# AWS credentials
+  - name: aws_ec2_tf_creds
     type: integration
-    integration: dr_aws
+    integration: "dr_aws"
 
-build:
-  ci:
-    - echo $DR_AWS_INTEGRATION_ACCESSKEY
-    - shipctl get_integration_resource_field dr_aws "accessKey"
-    - echo $(shipctl get_integration_resource_field dr_aws "accessKey")
-    - echo $(shipctl get_integration_resource_field dr_aws "secretKey")
-    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field dr_aws "accessKey")
-    - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field dr_aws "secretKey")
-    - export AWS_DEFAULT_REGION="ap-south-1"
-    - echo $AWS_ACCESS_KEY_ID
-    - echo $AWS_SECRET_ACCESS_KEY
-#    - FILE_NAME=terraform_0.7.4_linux_amd64.zip
-#    - sudo apt-get update && apt-get install wget jq unzip
-#    - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
-#    - unzip $FILE_NAME -d $(pwd)
-#    - export PATH=$PATH:/build
-#
-#    - terraform init
-#    - terraform plan
-#    - terraform apply -auto-approve
+jobs:
+# Provision AWS ec2 with Terraform
+  - name: prov_aws_ec2_tf
+    type: runSh
+    steps:
+      - IN: aws_vpc_tf_info
+      - IN: aws_ec2_tf_repo
+        switch: off
+      - IN: aws_ec2_tf_state
+        switch: off
+      - IN: aws_ec2_tf_creds
+        switch: off
+      - IN: aws_ec2_tf_ssh
+        switch: off
+      - TASK:
+          name: prov_ec2
+          runtime:
+            options:
+              env:
+                - inst_type: "t2.micro"
+                - inst_ami: "ami-43a15f3e"
+                - aws_key_name: "dr_us_east_1_tf"
+          script:
+            - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
+            - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_ec2_tf_creds "secretKey")
+            - echo $AWS_ACCESS_KEY_ID
+#            - export PUBLIC_SSH_KEY=$(shipctl get_integration_resource_field aws_ec2_tf_ssh "publicKey")
+#            - shipctl copy_file_from_resource_state aws_ec2_tf_state terraform.tfstate .
+#            - shipctl replace terraform.tfvars
+#            - terraform init
+#            - terraform apply -auto-approve -var-file=terraform.tfvars
+      - OUT: aws_ec2_tf_info
+        overwrite: true
+      - OUT: aws_ec2_tf_state
+    on_success:
+      script:
+        - shipctl put_resource_state_multi aws_ec2_tf_info "versionName=$(terraform output ec2_ins_0_ip)" "ec2_ins_0_ip=$(terraform output ec2_ins_0_ip)"
+    always:
+      script:
+        - shipctl copy_file_to_resource_state terraform.tfstate aws_ec2_tf_state
+        - popd
+    flags:
+      - aws_ec2
+      - aws
+      - terraform
+
+# De-provision AWS ec2 with Terraform
+  - name: deprov_aws_ec2_tf
+    type: runSh
+    steps:
+      - IN: aws_ec2_tf_info
+        switch: off
+      - IN: aws_vpc_tf_info
+        switch: off
+      - IN: aws_ec2_tf_repo
+        switch: off
+      - IN: aws_ec2_tf_state
+        switch: off
+      - IN: aws_ec2_tf_creds
+        switch: off
+      - TASK:
+          name: deprov_inst
+          runtime:
+            options:
+              env:
+                - inst_type: "t2.micro"
+                - inst_ami: "ami-43a15f3e"
+                - aws_key_name: "dr_us_east_1_tf"
+          script:
+            - pushd $(shipctl get_resource_state "aws_ec2_tf_repo")
+            - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
+            - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_ec2_tf_creds "secretKey")
+            - shipctl copy_file_from_resource_state aws_ec2_tf_state terraform.tfstate .
+            - shipctl replace terraform.tfvars
+            - terraform init
+            - terraform destroy -force -auto-approve -var-file=terraform.tfvars
+      - OUT: aws_ec2_tf_state
+    always:
+      script:
+        - shipctl copy_file_to_resource_state terraform.tfstate aws_ec2_tf_state
+        - popd
+    flags:
+      - aws_ec2
+      - aws
+      - terraform
