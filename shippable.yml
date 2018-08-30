@@ -30,5 +30,5 @@ build:
     - sed -i "s/<AWS_SECRET_KEY>/$AWS_SECRET_ACCESS_KEY/g" ./terraform.tf
     - echo $PWD
     - ls -la
-    - docker run -v ${PWD}:${PWD} -w ${PWD} agrawalveeru/terra shell
+    - docker run -v ${PWD}:/go/src/github.com/rahul2393/sample_pipelines_terraform -w /go/src/github.com/rahul2393/sample_pipelines_terraform pypyr/pypyr-go shell
     - ls -la
