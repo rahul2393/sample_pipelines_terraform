@@ -6,7 +6,7 @@ go:
 resources:
   - name: dr_aws
     type: integration
-    integration: ecr
+    integration: amazonKeys
 
 build:
   ci:
