@@ -6,7 +6,7 @@ go:
 resources:
   - name: aws_ec2_tf_creds
     type: integration
-    integration: "dr_aws"
+    integration: dr_aws
 
 build:
   ci:
