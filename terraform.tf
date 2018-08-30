@@ -1,10 +1,6 @@
 # ========================ECS Instances=======================
 
-provider "aws" {
-  secret_key = "<AWS_SECRET_KEY>"
-  access_key = "<AWS_ACCESS_KEY_ID>"
-  region = "<REGION>"
-}
+provider "aws" {}
 
 # EC2 instances
 resource "aws_instance" "sampleInstances" {

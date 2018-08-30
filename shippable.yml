@@ -21,14 +21,16 @@ resources:
 
 build:
   ci:
-    - echo $integration-aws_INTEGRATION_ACCESSKEY
-    - export AWS_ACCESS_KEY_ID=AKIAIQRM4YV47TWGYY7Q
-    - export AWS_SECRET_ACCESS_KEY=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
+    - FILE_NAME=terraform_0.7.4_linux_amd64.zip
+    - sudo apt-get update && apt-get install wget jq unzip
+    - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
+    - unzip $FILE_NAME -d $(pwd)
+    - export PATH=$PATH:/build
+    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field integration-aws "accessKey")
+    - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field integration-aws "secretKey")
     - export AWS_DEFAULT_REGION="ap-south-1"
-    - sed -i "s/<AWS_ACCESS_KEY_ID>/$AWS_ACCESS_KEY_ID/g" ./terraform.tf
-    - sed -i "s/<REGION>/AWS_DEFAULT_REGION/g" ./terraform.tf
-    - sed -i "s/<AWS_SECRET_KEY>/$AWS_SECRET_ACCESS_KEY/g" ./terraform.tf
-    - echo $PWD
-    - ls -la
-    - docker run -v ${PWD}:/go/src/github.com/rahul2393/sample_pipelines_terraform -w /go/src/github.com/rahul2393/sample_pipelines_terraform pypyr/pypyr-go shell
-    - ls -la
+    - echo $AWS_ACCESS_KEY_ID
+    - echo $AWS_SECRET_ACCESS_KEY
+    - terraform init
+    - terraform plan
+    - terraform apply -auto-approve
