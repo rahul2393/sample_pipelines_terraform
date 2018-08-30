@@ -4,19 +4,18 @@ go:
   - 1.9
 
 resources:
-  - name: aws_ec2_tf_creds
+  - name: dr_aws
     type: integration
     integration: dr_aws
 
 build:
   ci:
     - echo $DR_AWS_INTEGRATION_ACCESSKEY
-    - echo $AWS_EC2_TF_CREDS_INTEGRATION_ACCESSKEY
-    - shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey"
-    - echo $(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
-    - echo $(shipctl get_integration_resource_field aws_ec2_tf_creds "secretKey")
-    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
-    - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_ec2_tf_creds "secretKey")
+    - shipctl get_integration_resource_field dr_aws "accessKey"
+    - echo $(shipctl get_integration_resource_field dr_aws "accessKey")
+    - echo $(shipctl get_integration_resource_field dr_aws "secretKey")
+    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field dr_aws "accessKey")
+    - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field dr_aws "secretKey")
     - export AWS_DEFAULT_REGION="ap-south-1"
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
