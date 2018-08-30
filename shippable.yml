@@ -4,16 +4,16 @@ go:
   - 1.9
 
 resources:
-  - name: my_integration
+  - name: integration-aws
     type: integration
-    integration: my_integration
+    integration: integration-aws
 
 build:
   ci:
-    - echo $MY_INTEGRATION_INTEGRATION_ACCESSKEY
-    - echo $(shipctl get_integration_resource_field MY_INTEGRATION secretKey)
-    - export AWS_ACCESS_KEY_ID=$MY_INTEGRATION_INTEGRATION_ACCESSKEY
-    - export AWS_SECRET_ACCESS_KEY=$MY_INTEGRATION_INTEGRATION_SECRETKEY
+    - echo $INTEGRATIONAWS_INTEGRATION_ACCESSKEY
+    - echo $(shipctl get_integration_resource_field INTEGRATIONAWS secretKey)
+    - export AWS_ACCESS_KEY_ID=$INTEGRATIONAWS_INTEGRATION_ACCESSKEY
+    - export AWS_SECRET_ACCESS_KEY=$INTEGRATIONAWS_INTEGRATION_SECRETKEY
     - export AWS_DEFAULT_REGION="ap-south-1"
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
