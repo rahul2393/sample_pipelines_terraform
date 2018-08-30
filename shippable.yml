@@ -27,4 +27,4 @@ build:
     - export AWS_DEFAULT_REGION="ap-south-1"
     - echo $PWD
     - ls -la
-    - docker run -v ${PWD}:/root/src/github.com/rahul2393/sample_pipelines_terraform -w /go/src/github.com/rahul2393/sample_pipelines_terraform agrawalveeru/terra shell
+    - docker run -v ${PWD}:/root/src/github.com/rahul2393/sample_pipelines_terraform -w /root/src/github.com/rahul2393/sample_pipelines_terraform agrawalveeru/terra shell
