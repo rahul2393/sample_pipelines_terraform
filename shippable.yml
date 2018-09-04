@@ -22,3 +22,8 @@ jobs:
     on_success:
       script:
         - echo "Done!!"
+
+
+build:
+  ci:
+    - echo $AWS_ACCESS_KEY_ID
