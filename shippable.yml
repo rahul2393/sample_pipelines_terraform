@@ -13,12 +13,12 @@ jobs:
     type: runCI
     steps:
       - IN: aws_pack_creds
-    - TASK:
-        name: build_ci
-        script:
-          - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_pack_creds "accessKey")
-          - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_pack_creds "secretKey")
-          - echo $AWS_ACCESS_KEY_ID
-  on_success:
-    script:
-      - echo "Done!!"
+      - TASK:
+          name: build_ci
+          script:
+            - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_pack_creds "accessKey")
+            - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_pack_creds "secretKey")
+            - echo $AWS_ACCESS_KEY_ID
+    on_success:
+      script:
+        - echo "Done!!"
