@@ -9,7 +9,7 @@ resources:
     integration: "dr_aws"
 
 jobs:
-  - name: sample_pipelines_terraform_runCI #this has to be the name, not customizable
+  - name: sample_pipelines_terraform_runShs #this has to be the name, not customizable
     type: runSh
     steps:
       - IN: aws_pack_creds
