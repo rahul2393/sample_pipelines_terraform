@@ -4,27 +4,21 @@ go:
   - 1.9
 
 resources:
-  - name: dr_aws
+  - name: aws_pack_creds
     type: integration
-    integration: amazonKeys
+    integration: "dr_aws"
 
-build:
-  ci:
-    - echo $DR_AWS_INTEGRATION_ACCESSKEY
-    - shipctl get_integration_resource_field dr_aws "accessKey"
-    - echo $(shipctl get_integration_resource_field dr_aws "accessKey")
-    - echo $(shipctl get_integration_resource_field dr_aws "secretKey")
-    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field dr_aws "accessKey")
-    - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field dr_aws "secretKey")
-    - export AWS_DEFAULT_REGION="ap-south-1"
-    - echo $AWS_ACCESS_KEY_ID
-    - echo $AWS_SECRET_ACCESS_KEY
-#    - FILE_NAME=terraform_0.7.4_linux_amd64.zip
-#    - sudo apt-get update && apt-get install wget jq unzip
-#    - wget https://releases.hashicorp.com/terraform/0.7.4/$FILE_NAME
-#    - unzip $FILE_NAME -d $(pwd)
-#    - export PATH=$PATH:/build
-#
-#    - terraform init
-#    - terraform plan
-#    - terraform apply -auto-approve
+jobs:
+  - name: sample_pipelines_terraform_runCI #this has to be the name, not customizable
+    type: runCI
+    steps:
+      - IN: aws_pack_creds
+    - TASK:
+        name: build_ci
+        script:
+          - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_pack_creds "accessKey")
+          - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_pack_creds "secretKey")
+          - echo $AWS_ACCESS_KEY_ID
+  on_success:
+    script:
+      - echo "Done!!"
