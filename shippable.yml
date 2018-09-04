@@ -10,7 +10,7 @@ resources:
 
 jobs:
   - name: sample_pipelines_terraform_runCI #this has to be the name, not customizable
-    type: runCI
+    type: runSh
     steps:
       - IN: aws_pack_creds
       - TASK:
