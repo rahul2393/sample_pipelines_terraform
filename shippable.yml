@@ -9,8 +9,8 @@ resources:
     integration: "dr_aws"
 
 jobs:
-  - name: sample_pipelines_terraform_runShs #this has to be the name, not customizable
-    type: runSh
+  - name: sample_pipelines_terraform_runCI #this has to be the name, not customizable
+    type: runCI
     steps:
       - IN: aws_pack_creds
       - TASK:
@@ -23,8 +23,3 @@ jobs:
     on_success:
       script:
         - echo "Done!!"
-
-
-build:
-  ci:
-    - echo $AWS_ACCESS_KEY_ID
