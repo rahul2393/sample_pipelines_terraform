@@ -20,6 +20,7 @@ jobs:
             - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field aws_pack_creds "secretKey")
             - echo $AWS_ACCESS_KEY_ID
             - echo $AWS_SECRET_ACCESS_KEY
+            - git init
     on_success:
       script:
         - echo "Done!!"
