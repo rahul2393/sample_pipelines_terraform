@@ -17,7 +17,7 @@ resources:
 
 jobs:
 # Provision AWS ec2 with Terraform
-  - name: prov_aws_ec2_tf
+  - name: sample_pipelines_terraform_runCI
     type: runSh
     steps:
       - IN: aws_ec2_tf_state
