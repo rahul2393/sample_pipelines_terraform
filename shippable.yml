@@ -20,7 +20,6 @@ jobs:
   - name: prov_aws_ec2_tf
     type: runSh
     steps:
-      - IN: aws_vpc_tf_info
       - IN: aws_ec2_tf_state
         switch: off
       - IN: aws_ec2_tf_creds
