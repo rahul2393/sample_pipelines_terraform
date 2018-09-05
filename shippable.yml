@@ -1,3 +1,8 @@
+language: go
+
+go:
+ - 1.9
+
 resources:
 # AWS credentials
   - name: aws_ec2_tf_creds
@@ -48,3 +53,8 @@ jobs:
       - aws_ec2
       - aws
       - terraform
+
+build:
+  ci:
+    - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field aws_ec2_tf_creds "accessKey")
+    - echo $AWS_ACCESS_KEY_ID
